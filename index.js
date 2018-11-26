@@ -140,15 +140,9 @@ function SendStream (req, path, options) {
     ? normalizeList(opts.index, 'index option')
     : ['index.html']
 
-<<<<<<< HEAD
-  this._lastModified = opts.lastModified !== undefined
-    ? Boolean(opts.lastModified)
-    : true
-=======
   this._lastModified = options.lastModified !== undefined
     ? Boolean(options.lastModified)
     : (this._transform !== undefined ? false : true)
->>>>>>> f8fd84f270e1e1afb969e75d63e57a63f9d17141
 
   this._maxage = opts.maxAge || opts.maxage
   this._maxage = typeof this._maxage === 'string'
@@ -697,16 +691,12 @@ SendStream.prototype.send = function send (path, stat) {
   opts.end = Math.max(offset, offset + len - 1)
 
   // content-length
-<<<<<<< HEAD
-  res.setHeader('Content-Length', len)
-=======
   if(this._transform === undefined){
 	res.setHeader('Content-Length', len);
   }else{
     //we don't know the content-length of the transformed data beforehand
     res.setHeader('Transfer-Encoding', 'chunked');
   }
->>>>>>> f8fd84f270e1e1afb969e75d63e57a63f9d17141
 
   // HEAD support
   if (req.method === 'HEAD') {
@@ -803,12 +793,6 @@ SendStream.prototype.stream = function stream (path, options) {
   var res = this.res
 
   // pipe
-<<<<<<< HEAD
-  var stream = fs.createReadStream(path, options)
-  this.emit('stream', stream)
-  stream.pipe(res)
-
-=======
   var stream = fs.createReadStream(path, options);
   
   this.emit('stream', stream);
@@ -819,7 +803,6 @@ SendStream.prototype.stream = function stream (path, options) {
   
   stream.pipe(res);
   
->>>>>>> f8fd84f270e1e1afb969e75d63e57a63f9d17141
   // response finished, done with the fd
   onFinished(res, function onfinished () {
     finished = true
