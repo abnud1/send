@@ -76,7 +76,7 @@ the 4th byte in the stream.
 
 ##### etag
 
-Enable or disable etag generation, defaults to true.
+Enable or disable etag generation, defaults to `true` unless the transform options is set.
 
 ##### extensions
 
@@ -101,8 +101,10 @@ in preferred order.
 
 ##### lastModified
 
-Enable or disable `Last-Modified` header, defaults to true. Uses the file
+Enable or disable `Last-Modified` header, defaults to `true`. Uses the file
 system's last modified value.
+
+If the `transform` option is set then the default is `false`.
 
 ##### maxAge
 
@@ -120,6 +122,28 @@ Byte offset at which the stream starts, defaults to 0. The start is inclusive,
 meaning `start: 2` will include the 3rd byte in the stream.
 
 #### Events
+=======
+##### Transform
+
+A function that consumes the file stream and produces a new (transformed) stream:
+```javascript
+function(stream) {return stream.pipe(replaceStream('tobi', 'peter'))}
+```
+ 
+Multiple transformations are possible: 
+```javascript
+function(stream) {
+  return stream
+  .pipe(replaceStream('tobi', 'peter'))
+  .pipe(replaceStream('peter', 'hans'))
+  .pipe(...)
+}
+```
+
+With transform the last-modified and etag defaults to `false` but can be overridden when
+a transform on the file's stream is expected to always generate the same result. 
+
+### Events
 
 The `SendStream` is an event emitter and will emit the following events:
 
